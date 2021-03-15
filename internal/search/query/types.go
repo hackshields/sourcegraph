@@ -61,6 +61,10 @@ type QueryInfo interface {
 	IsCaseSensitive() bool
 }
 
+// A query plan represents a set of disjoint queries for the search engine to
+// execute. The result of executing a plan is the union of individual query results.
+type Plan []Q
+
 // A query is a tree of Nodes. We choose the type name Q so that external uses like query.Q do not stutter.
 type Q []Node
 
