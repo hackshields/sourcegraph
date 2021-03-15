@@ -87,16 +87,6 @@ func InitStructural(in string) step {
 	return Init(in, SearchTypeStructural)
 }
 
-func Validate(nodes []Node) ([]Node, error) {
-	for _, disjunct := range Dnf(nodes) {
-		err := validate(disjunct)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return nodes, nil
-}
-
 func Run(step step) ([]Node, error) {
 	return step(nil)
 }

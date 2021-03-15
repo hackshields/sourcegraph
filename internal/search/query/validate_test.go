@@ -98,7 +98,7 @@ func TestAndOrQuery_Validation(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run("validate and/or query", func(t *testing.T) {
-			_, err := Run(sequence(Init(c.input, c.searchType), Validate))
+			_, err := Pipeline(Init(c.input, c.searchType))
 			if err == nil {
 				t.Fatal(fmt.Sprintf("expected test for %s to fail", c.input))
 			}
