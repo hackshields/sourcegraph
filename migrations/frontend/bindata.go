@@ -136,6 +136,8 @@
 // 1528395799_add_clone_status_conditional_indexes.up.sql (596B)
 // 1528395800_external_service_config_migration.down.sql (18B)
 // 1528395800_external_service_config_migration.up.sql (268B)
+// 1528395801_add_encryption_key_ident.down.sql (93B)
+// 1528395801_add_encryption_key_ident.up.sql (121B)
 
 package migrations
 
@@ -2924,6 +2926,46 @@ func _1528395800_external_service_config_migrationUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __1528395801_add_encryption_key_identDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x04\xc0\xc1\x0a\xc2\x30\x0c\x00\xd0\x7b\xbe\x22\xff\xd1\xd3\x36\xa3\x04\xda\x55\xb6\x08\xde\xc2\xa8\x39\x0c\x25\x93\xae\x03\xf7\xf7\xbe\x9e\x6e\x3c\x06\x80\x2e\x0a\x4d\x28\x5d\x1f\x09\x8f\xdd\xaa\xda\xaf\x59\xf5\xe5\xa3\x4b\x29\xdb\xe1\x6d\xc7\xcb\x94\xef\x38\xe4\xf8\x48\x23\xf2\x15\xe9\xc9\xb3\xcc\x68\x5e\xea\xf9\x6d\xeb\xe6\xfa\xb6\x53\xd7\x57\x00\x18\x72\x4a\x2c\x01\xfe\x01\x00\x00\xff\xff\x84\xda\xc1\x4b\x5d\x00\x00\x00")
+
+func _1528395801_add_encryption_key_identDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__1528395801_add_encryption_key_identDownSql,
+		"1528395801_add_encryption_key_ident.down.sql",
+	)
+}
+
+func _1528395801_add_encryption_key_identDownSql() (*asset, error) {
+	bytes, err := _1528395801_add_encryption_key_identDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "1528395801_add_encryption_key_ident.down.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x28, 0x9, 0xe, 0x30, 0xf3, 0x8c, 0x82, 0x1c, 0xa1, 0x6c, 0x55, 0x6c, 0x46, 0xf5, 0x4c, 0xc2, 0xb5, 0x6e, 0x9c, 0x62, 0x74, 0x87, 0x8d, 0x9, 0xc3, 0xc, 0xc9, 0xeb, 0x2a, 0xf4, 0x1b, 0x94}}
+	return a, nil
+}
+
+var __1528395801_add_encryption_key_identUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x1c\xca\xc1\xaa\x84\x20\x14\x06\xe0\xbd\x4f\xf1\xef\x7a\x88\x56\x56\x76\x11\x8e\x0a\xb7\x23\xcc\x4e\xc2\x39\x8b\x98\xc1\x06\x33\xa8\xb7\x1f\x98\xfd\x37\x98\x3f\xeb\x7b\xa5\x34\xb1\xf9\x07\xeb\x81\x0c\xce\x43\x6a\x92\xab\x49\x2d\xeb\x3b\xad\x39\xef\x67\x69\x07\xf4\x34\x61\x0c\x14\x9d\x87\x9d\xe1\x03\xc3\x3c\xec\xc2\x0b\xa4\xe4\x7a\x7f\xda\xb6\x97\xf4\x92\x3b\x6d\x4f\x34\xb9\xda\x4f\xf8\x48\x84\xc9\xcc\x3a\x12\xa3\xeb\x7a\xa5\xc6\xe0\x9c\xe5\x5e\x7d\x03\x00\x00\xff\xff\x5a\x1c\x26\x23\x79\x00\x00\x00")
+
+func _1528395801_add_encryption_key_identUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__1528395801_add_encryption_key_identUpSql,
+		"1528395801_add_encryption_key_ident.up.sql",
+	)
+}
+
+func _1528395801_add_encryption_key_identUpSql() (*asset, error) {
+	bytes, err := _1528395801_add_encryption_key_identUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "1528395801_add_encryption_key_ident.up.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x51, 0x90, 0x33, 0xa, 0xa, 0xa9, 0xe3, 0x71, 0x7f, 0xec, 0x35, 0xa6, 0xe5, 0xf9, 0x6f, 0x4d, 0x87, 0x1d, 0x2f, 0x9b, 0xc7, 0xc5, 0x5f, 0x4d, 0x37, 0x84, 0x21, 0x6f, 0x65, 0x2c, 0xa1, 0x8a}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -3151,6 +3193,8 @@ var _bindata = map[string]func() (*asset, error){
 	"1528395799_add_clone_status_conditional_indexes.up.sql":                                 _1528395799_add_clone_status_conditional_indexesUpSql,
 	"1528395800_external_service_config_migration.down.sql":                                  _1528395800_external_service_config_migrationDownSql,
 	"1528395800_external_service_config_migration.up.sql":                                    _1528395800_external_service_config_migrationUpSql,
+	"1528395801_add_encryption_key_ident.down.sql":                                           _1528395801_add_encryption_key_identDownSql,
+	"1528395801_add_encryption_key_ident.up.sql":                                             _1528395801_add_encryption_key_identUpSql,
 }
 
 // AssetDebug is true if the assets were built with the debug flag enabled.
@@ -3333,6 +3377,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"1528395799_add_clone_status_conditional_indexes.up.sql":                                 {_1528395799_add_clone_status_conditional_indexesUpSql, map[string]*bintree{}},
 	"1528395800_external_service_config_migration.down.sql":                                  {_1528395800_external_service_config_migrationDownSql, map[string]*bintree{}},
 	"1528395800_external_service_config_migration.up.sql":                                    {_1528395800_external_service_config_migrationUpSql, map[string]*bintree{}},
+	"1528395801_add_encryption_key_ident.down.sql":                                           {_1528395801_add_encryption_key_identDownSql, map[string]*bintree{}},
+	"1528395801_add_encryption_key_ident.up.sql":                                             {_1528395801_add_encryption_key_identUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.

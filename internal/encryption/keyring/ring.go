@@ -74,13 +74,19 @@ func NewRing(ctx context.Context, keyConfig *schema.EncryptionKeys) (*Ring, erro
 	if err != nil {
 		return nil, err
 	}
+	uextacc, err := NewKey(ctx, keyConfig.UserExternalAccountKey)
+	if err != nil {
+		return nil, err
+	}
 	return &Ring{
-		ExternalServiceKey: extsvc,
+		ExternalServiceKey:     extsvc,
+		UserExternalAccountKey: uextacc,
 	}, nil
 }
 
 type Ring struct {
-	ExternalServiceKey encryption.Key
+	ExternalServiceKey     encryption.Key
+	UserExternalAccountKey encryption.Key
 }
 
 func NewKey(ctx context.Context, k *schema.EncryptionKey) (encryption.Key, error) {
@@ -97,4 +103,40 @@ func NewKey(ctx context.Context, k *schema.EncryptionKey) (encryption.Key, error
 	default:
 		return nil, fmt.Errorf("couldn't configure key: %v", *k)
 	}
+}
+
+// MaybeEncrypt encrypts data with the given key returns the id of the key. If the key is nil, it returns the data unchanged.
+func MaybeEncrypt(ctx context.Context, key encryption.Key, data string) (maybeEncryptedData, keyID string, err error) {
+	var keyIdent string
+
+	if key != nil {
+		encrypted, err := key.Encrypt(ctx, []byte(data))
+		if err != nil {
+			return "", "", err
+		}
+		data = string(encrypted)
+		keyIdent, err = key.ID(ctx)
+		if err != nil {
+			return "", "", err
+		}
+	}
+
+	return data, keyIdent, nil
+}
+
+// MaybeDecrypt decrypts data with the given key if keyIdent is not empty.
+func MaybeDecrypt(ctx context.Context, key encryption.Key, data, keyIdent string) (string, error) {
+	if keyIdent == "" {
+		// data is not encrypted, return plaintext
+		return data, nil
+	}
+	if key == nil {
+		return data, fmt.Errorf("couldn't decrypt encrypted data, key is nil")
+	}
+	decrypted, err := key.Decrypt(ctx, []byte(data))
+	if err != nil {
+		return data, err
+	}
+
+	return decrypted.Secret(), nil
 }

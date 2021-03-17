@@ -920,6 +920,9 @@ const SiteSchemaJSON = `{
       "properties": {
         "externalServiceKey": {
           "$ref": "#/definitions/EncryptionKey"
+        },
+        "userExternalAccountKey": {
+          "$ref": "#/definitions/EncryptionKey"
         }
       }
     },
@@ -1349,7 +1352,11 @@ const SiteSchemaJSON = `{
           "enum": ["cloudkms", "noop", "base64"]
         }
       },
-      "oneOf": [{ "$ref": "#/definitions/CloudKMSEncryptionKey" }, { "$ref": "#/definitions/NoOpEncryptionKey" }, { "$ref": "#/definitions/Base64EncryptionKey" }],
+      "oneOf": [
+        { "$ref": "#/definitions/CloudKMSEncryptionKey" },
+        { "$ref": "#/definitions/NoOpEncryptionKey" },
+        { "$ref": "#/definitions/Base64EncryptionKey" }
+      ],
       "!go": {
         "taggedUnionType": true
       }
