@@ -138,6 +138,8 @@
 // 1528395800_external_service_config_migration.up.sql (268B)
 // 1528395801_add_encryption_key_ident.down.sql (93B)
 // 1528395801_add_encryption_key_ident.up.sql (121B)
+// 1528395802_external_account_migration.down.sql (18B)
+// 1528395802_external_account_migration.up.sql (263B)
 
 package migrations
 
@@ -2966,6 +2968,46 @@ func _1528395801_add_encryption_key_identUpSql() (*asset, error) {
 	return a, nil
 }
 
+var __1528395802_external_account_migrationDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xd2\xd5\x55\xf0\xcb\x2f\xc9\xc8\xcc\x4b\x57\x28\xc9\x57\x48\xc9\xd7\xe3\x02\x04\x00\x00\xff\xff\xbd\x7e\x9c\x52\x12\x00\x00\x00")
+
+func _1528395802_external_account_migrationDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__1528395802_external_account_migrationDownSql,
+		"1528395802_external_account_migration.down.sql",
+	)
+}
+
+func _1528395802_external_account_migrationDownSql() (*asset, error) {
+	bytes, err := _1528395802_external_account_migrationDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "1528395802_external_account_migration.down.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x6a, 0x42, 0x8f, 0xd2, 0x33, 0x7c, 0x76, 0x3a, 0x2f, 0x44, 0x54, 0x9, 0xe1, 0x1b, 0xa2, 0xc0, 0xcd, 0x9d, 0xe4, 0x44, 0x5, 0xbf, 0x96, 0xc1, 0xee, 0xfd, 0x33, 0x72, 0x7f, 0xcc, 0x84, 0x65}}
+	return a, nil
+}
+
+var __1528395802_external_account_migrationUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x2c\xcd\x41\x4b\x33\x31\x10\xc6\xf1\x7b\x3e\xc5\xdc\xb6\x85\xec\xf2\xf2\x2a\x7a\xd8\x93\xae\x6b\x0d\xb4\x09\xd8\xd5\xeb\x92\x26\x53\x0d\x74\x27\x21\x3b\x11\xfd\xf6\x92\xe2\xed\xc7\xcc\x1f\x9e\xc7\x71\xa7\x74\x2f\x84\xd2\xc7\xf1\x75\x02\xa5\x27\x03\xb1\xf0\x1c\xcf\xf3\xc9\x92\x9f\x97\xf0\x91\x2d\x87\x48\x2b\x6c\x82\x97\xc0\x68\x17\x09\x2e\x2e\x29\x12\x12\x4b\xf0\xb8\xba\x1c\x52\x4d\x24\x04\xe2\x1c\x7d\x71\xe8\xeb\x23\x65\x74\x96\xab\x29\xd2\xec\x71\xe5\x5c\x1c\x87\x2f\xdc\x8a\xf7\x87\xfd\xdb\x78\x84\xcd\xad\x84\xc6\xc5\x8c\xad\x4d\xe9\x12\xdc\x75\xa9\x91\xd0\x9c\x73\x24\x46\xf2\xad\x3f\x75\xf8\xcd\x98\xc9\x5e\x5a\xeb\x5c\x2c\xc4\x6b\x0d\x46\x72\xf9\x27\x31\xd8\xc2\x9f\xe0\x2d\xdb\x7a\xbc\xe9\xfe\xdf\x75\xff\xfe\x74\x7f\x15\xe7\x82\x5b\x61\x34\x0c\x46\x3f\xef\xd5\x30\xc1\x93\x01\x6d\xa6\x17\xa5\x77\xbd\x10\x83\x39\x1c\xd4\xd4\x8b\xdf\x00\x00\x00\xff\xff\x56\xaa\xbf\x97\x07\x01\x00\x00")
+
+func _1528395802_external_account_migrationUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__1528395802_external_account_migrationUpSql,
+		"1528395802_external_account_migration.up.sql",
+	)
+}
+
+func _1528395802_external_account_migrationUpSql() (*asset, error) {
+	bytes, err := _1528395802_external_account_migrationUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "1528395802_external_account_migration.up.sql", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xff, 0xed, 0x49, 0x1f, 0x4, 0xaa, 0x84, 0x74, 0xe4, 0x69, 0x57, 0x6e, 0xbf, 0xbb, 0xfc, 0x49, 0x1, 0x91, 0xa9, 0x91, 0x41, 0xd0, 0x2a, 0x43, 0xc6, 0x2e, 0xa1, 0x2d, 0x8c, 0xc2, 0x92, 0x28}}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -3195,6 +3237,8 @@ var _bindata = map[string]func() (*asset, error){
 	"1528395800_external_service_config_migration.up.sql":                                    _1528395800_external_service_config_migrationUpSql,
 	"1528395801_add_encryption_key_ident.down.sql":                                           _1528395801_add_encryption_key_identDownSql,
 	"1528395801_add_encryption_key_ident.up.sql":                                             _1528395801_add_encryption_key_identUpSql,
+	"1528395802_external_account_migration.down.sql":                                         _1528395802_external_account_migrationDownSql,
+	"1528395802_external_account_migration.up.sql":                                           _1528395802_external_account_migrationUpSql,
 }
 
 // AssetDebug is true if the assets were built with the debug flag enabled.
@@ -3379,6 +3423,8 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"1528395800_external_service_config_migration.up.sql":                                    {_1528395800_external_service_config_migrationUpSql, map[string]*bintree{}},
 	"1528395801_add_encryption_key_ident.down.sql":                                           {_1528395801_add_encryption_key_identDownSql, map[string]*bintree{}},
 	"1528395801_add_encryption_key_ident.up.sql":                                             {_1528395801_add_encryption_key_identUpSql, map[string]*bintree{}},
+	"1528395802_external_account_migration.down.sql":                                         {_1528395802_external_account_migrationDownSql, map[string]*bintree{}},
+	"1528395802_external_account_migration.up.sql":                                           {_1528395802_external_account_migrationUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.
