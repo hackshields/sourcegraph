@@ -16,6 +16,7 @@ linters:
     - bodyclose
     - deadcode
     - gocritic
+    - staticcheck
 
 linters-settings:
   gocritic:
