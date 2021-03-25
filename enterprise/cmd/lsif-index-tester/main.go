@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -16,6 +17,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/inconshreveable/log15"
+	"github.com/sourcegraph/sourcegraph/enterprise/lib/codeintel/lsif/conversion"
 	"github.com/sourcegraph/sourcegraph/enterprise/lib/codeintel/semantic"
 )
 
@@ -119,7 +121,7 @@ func testDirectory(ctx context.Context, indexer []string, directory string) erro
 		go func(name string) {
 			defer wg.Done()
 
-			projResult, err := testProject(ctx, indexer, directory+"/"+name, name)
+			projResult, err := testProject(ctx, indexer, path.Join(directory, name), name)
 
 			resultChan <- ChannelResult{
 				result: projResult,
@@ -188,7 +190,7 @@ func testProject(ctx context.Context, indexer []string, project, name string) (P
 		log15.Debug("... Validated dump.lsif")
 	}
 
-	bundle, err := readBundle(1, project)
+	bundle, err := readBundle(project)
 	if err != nil {
 		return ProjectResult{
 			name:    name,
@@ -244,7 +246,6 @@ func validateDump(directory string) ([]byte, error) {
 	// TODO: Eventually this should use the package, rather than the installed module
 	//       but for now this will have to do.
 
-	// validator.validate(directory + "/" + "dump.lsif")
 	cmd := exec.Command("lsif-validate", "dump.lsif")
 	cmd.Dir = directory
 
@@ -348,4 +349,15 @@ func transformLocationToResponse(location semantic.LocationData) DefinitionRespo
 		},
 	}
 
+}
+func readBundle(root string) (*semantic.GroupedBundleDataMaps, error) {
+	dumpPath := path.Join(root, "dump.lsif")
+	bundle, err := conversion.CorrelateLocalGit(context.Background(), dumpPath, root)
+
+	if err != nil {
+		fmt.Println("conversion failed")
+		return nil, err
+	}
+
+	return semantic.GroupedBundleDataChansToMaps(bundle), nil
 }
