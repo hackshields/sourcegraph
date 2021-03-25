@@ -12,9 +12,10 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sourcegraph/sourcegraph/enterprise/lib/codeintel/lsif/conversion"
 	"github.com/sourcegraph/sourcegraph/enterprise/lib/codeintel/pathexistence"
+	"github.com/sourcegraph/sourcegraph/enterprise/lib/codeintel/semantic"
 )
 
-func readBundle(dumpID int, root string) (*conversion.GroupedBundleDataMaps, error) {
+func readBundle(dumpID int, root string) (*semantic.GroupedBundleDataMaps, error) {
 	dumpPath := path.Join(root, "dump.lsif")
 	getChildrenFunc := makeExistenceFunc(root)
 	file, err := os.Open(dumpPath)
@@ -23,13 +24,13 @@ func readBundle(dumpID int, root string) (*conversion.GroupedBundleDataMaps, err
 	}
 	defer file.Close()
 
-	bundle, err := conversion.Correlate(context.Background(), file, dumpID, "", getChildrenFunc)
+	bundle, err := conversion.Correlate(context.Background(), file, root, getChildrenFunc)
 	if err != nil {
 		fmt.Println("conversion failed")
 		return nil, err
 	}
 
-	return conversion.GroupedBundleDataChansToMaps(context.Background(), bundle), nil
+	return semantic.GroupedBundleDataChansToMaps(bundle), nil
 }
 
 func makeExistenceFunc(directory string) pathexistence.GetChildrenFunc {

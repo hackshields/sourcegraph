@@ -16,7 +16,6 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/inconshreveable/log15"
-	"github.com/sourcegraph/sourcegraph/enterprise/lib/codeintel/lsif/conversion"
 	"github.com/sourcegraph/sourcegraph/enterprise/lib/codeintel/semantic"
 )
 
@@ -252,7 +251,7 @@ func validateDump(directory string) ([]byte, error) {
 	return cmd.CombinedOutput()
 }
 
-func validateTestCases(directory string, bundle *conversion.GroupedBundleDataMaps) (TestSuiteResult, error) {
+func validateTestCases(directory string, bundle *semantic.GroupedBundleDataMaps) (TestSuiteResult, error) {
 	testFiles, err := os.ReadDir(filepath.Join(directory, "lsif_tests"))
 	if err != nil {
 		log15.Warn("No lsif test directory exists here", "directory", directory)
@@ -272,14 +271,13 @@ func validateTestCases(directory string, bundle *conversion.GroupedBundleDataMap
 			logFatal("Had an error while we do the test file", "err", err)
 		}
 
-		// log15.Info("Test Results:", "result", fileResult)
 		fileResults = append(fileResults, fileResult)
 	}
 
 	return TestSuiteResult{FileResults: fileResults}, nil
 }
 
-func runOneTestFile(file string, bundle *conversion.GroupedBundleDataMaps) (TestFileResult, error) {
+func runOneTestFile(file string, bundle *semantic.GroupedBundleDataMaps) (TestFileResult, error) {
 	doc, err := ioutil.ReadFile(file)
 	if err != nil {
 		return TestFileResult{}, errors.Wrap(err, "Failed to read file")
@@ -297,7 +295,7 @@ func runOneTestFile(file string, bundle *conversion.GroupedBundleDataMaps) (Test
 		line := definitionRequest.Request.Position.Line
 		character := definitionRequest.Request.Position.Character
 
-		results, err := conversion.Query(bundle, path, line, character)
+		results, err := semantic.Query(bundle, path, line, character)
 
 		if err != nil {
 			return TestFileResult{}, err
