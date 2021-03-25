@@ -180,6 +180,12 @@ func syncExternalService(ctx context.Context, svc *types.ExternalService) error 
 		return err
 	}
 
+	// The context could be cancelled by a parent or timeout. Either way we should propagate the
+	// error out.
+	if ctx.Err() != nil {
+		return err
+	}
+
 	return nil
 }
 
