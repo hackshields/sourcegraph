@@ -22,6 +22,7 @@ import (
 	"github.com/sourcegraph/sourcegraph/internal/gitserver"
 	"github.com/sourcegraph/sourcegraph/internal/gitserver/protocol"
 	"github.com/sourcegraph/sourcegraph/internal/search/filter"
+	"github.com/sourcegraph/sourcegraph/internal/search/result"
 	"github.com/sourcegraph/sourcegraph/internal/types"
 	"github.com/sourcegraph/sourcegraph/internal/vcs"
 	"github.com/sourcegraph/sourcegraph/internal/vcs/git"
@@ -52,7 +53,7 @@ type RepositoryResolver struct {
 	defaultBranch     *GitRefResolver
 	defaultBranchErr  error
 
-	// rev optionally specifies a revision to go to for search results.
+	// rev optionally specifies a revision to go to for search results
 	rev string
 }
 
@@ -70,6 +71,16 @@ func NewRepositoryResolver(db dbutil.DB, repo *types.Repo) *RepositoryResolver {
 		innerRepo: repo,
 		name:      name,
 		id:        id,
+	}
+}
+
+func (r *RepositoryResolver) ToMatch() *result.RepoMatch {
+	return &result.RepoMatch{
+		RepoName: types.RepoName{
+			Name: r.name,
+			ID:   r.id,
+		},
+		Rev: r.rev,
 	}
 }
 

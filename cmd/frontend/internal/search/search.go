@@ -185,7 +185,7 @@ func (h *streamHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							Kind:          sym.Kind(),
 						})
 					}
-					matchesAppend(fromSymbolMatch(fm, symbols))
+					matchesAppend(fromSymbolMatch(&fm.FileMatch, symbols))
 				} else {
 					matchesAppend(fromFileMatch(&fm.FileMatch))
 				}
@@ -193,7 +193,7 @@ func (h *streamHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			if repo, ok := result.ToRepository(); ok {
 				display = repo.Limit(display)
 
-				matchesAppend(fromRepository(repo))
+				matchesAppend(fromRepository(repo.ToMatch()))
 			}
 			if commit, ok := result.ToCommitSearchResult(); ok {
 				display = commit.Limit(display)
@@ -388,7 +388,7 @@ func fromFileMatch(fm *result.FileMatch) *streamhttp.EventFileMatch {
 	}
 }
 
-func fromSymbolMatch(fm *graphqlbackend.FileMatchResolver, symbols []streamhttp.Symbol) *streamhttp.EventSymbolMatch {
+func fromSymbolMatch(fm *result.FileMatch, symbols []streamhttp.Symbol) *streamhttp.EventSymbolMatch {
 	var branches []string
 	if fm.InputRev != nil {
 		branches = []string{*fm.InputRev}
@@ -404,15 +404,15 @@ func fromSymbolMatch(fm *graphqlbackend.FileMatchResolver, symbols []streamhttp.
 	}
 }
 
-func fromRepository(repo *graphqlbackend.RepositoryResolver) *streamhttp.EventRepoMatch {
+func fromRepository(repo *result.RepoMatch) *streamhttp.EventRepoMatch {
 	var branches []string
-	if rev := repo.Rev(); rev != "" {
+	if rev := repo.Rev; rev != "" {
 		branches = []string{rev}
 	}
 
 	return &streamhttp.EventRepoMatch{
 		Type:       streamhttp.RepoMatchType,
-		Repository: repo.Name(),
+		Repository: string(repo.Name),
 		Branches:   branches,
 	}
 }
