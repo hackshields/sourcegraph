@@ -111,6 +111,43 @@ func (b Basic) MapParameters(parameters []Parameter) Basic {
 	return Basic{Parameters: parameters, Pattern: b.Pattern}
 }
 
+func (b Basic) VisitParameter(field string, callback func(value string, negated bool, annotation Annotation)) {
+	for _, p := range b.Parameters {
+		if p.Field == field {
+			callback(p.Value, p.Negated, p.Annotation)
+		}
+	}
+}
+
+func (b Basic) FindParameter(field string, callback func(value string, negated bool, annotation Annotation)) {
+	for _, p := range b.Parameters {
+		if p.Field == field {
+			callback(p.Value, p.Negated, p.Annotation)
+			break
+		}
+	}
+}
+
+// Returns first value. Doesn't care if it's negated or not. You should know if a field is negatable or not (passes validation).
+func (b Basic) FindValue(field string) (value string) {
+	var found string
+	b.FindParameter(field, func(v string, _ bool, _ Annotation) {
+		found = v
+	})
+	return found
+}
+
+func (b Basic) IncludeExcludeValues(field string) (include, exclude []string) {
+	b.VisitParameter(field, func(v string, negated bool, _ Annotation) {
+		if negated {
+			exclude = append(exclude, v)
+		} else {
+			include = append(include, v)
+		}
+	})
+	return include, exclude
+}
+
 // AddCount adds a count parameter to a basic query. Behavior of AddCount on a
 // query that already has a count parameter is undefined.
 func (b Basic) AddCount(count int) Basic {
