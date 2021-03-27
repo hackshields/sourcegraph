@@ -128,6 +128,48 @@ func (b Basic) FindParameter(field string, callback func(value string, negated b
 	}
 }
 
+// Warning: Atomic query assumption.
+func (b Basic) IsPatternNegated() bool {
+	isNegated := false
+	patternsFound := 0
+	VisitPattern([]Node{b.Pattern}, func(_ string, negated bool, _ Annotation) {
+		patternsFound++
+		if patternsFound > 1 {
+			return
+		}
+		isNegated = negated
+	})
+
+	// we only support negation for queries that contain exactly 1 pattern.
+	if patternsFound > 1 {
+		return false
+	}
+	return isNegated
+}
+
+// Warning: Atomic query assumption. Assumes query is regexp the first time it encounteres an annotation that is regexp.
+func (b Basic) IsRegexp() bool {
+	isRegexp := false
+	VisitPattern([]Node{b.Pattern}, func(_ string, _ bool, annot Annotation) {
+		isRegexp = annot.Labels.isSet(Regexp)
+	})
+	return isRegexp
+}
+
+// Warning: Atomic query assumption. Assumes query is structural the first time it encounteres an annotation that is structural.
+func (b Basic) IsStructural() bool {
+	isStructural := false
+	VisitPattern([]Node{b.Pattern}, func(_ string, _ bool, annot Annotation) {
+		isStructural = annot.Labels.isSet(Structural)
+	})
+	return isStructural
+}
+
+// Warning: Atomic query assumption. Assumes query is structural the first time it encounteres an annotation that is structural.
+func (b Basic) PatternValue() string {
+	return b.Pattern.(Pattern).Value
+}
+
 // Returns first value. Doesn't care if it's negated or not. You should know if a field is negatable or not (passes validation).
 func (b Basic) FindValue(field string) (value string) {
 	var found string

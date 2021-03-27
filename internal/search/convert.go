@@ -31,6 +31,7 @@ func appendMap(values []string, f func(in string) string) []string {
 	return values
 }
 
+// Assumes actually Atomic query -> means we need to expand query.Basic to atomic, or assume atomic.
 func toTextSearch(q query.Basic) *TextPatternInfo {
 	// Handle file: and -file: filters.
 	filesInclude, filesExclude := q.IncludeExcludeValues(query.FieldFile)
@@ -42,6 +43,12 @@ func toTextSearch(q query.Basic) *TextPatternInfo {
 	selector, _ := filter.SelectPathFromString(q.FindValue(query.FieldSelect)) // Invariant: already validated.
 
 	return &TextPatternInfo{
+		// Atomic Assumptions
+		IsNegated:       q.IsPatternNegated(),
+		IsRegexp:        q.IsRegexp(),
+		IsStructuralPat: q.IsStructural(),
+
+		// Parameters
 		IncludePatterns:              filesInclude,
 		ExcludePattern:               unionRegexp(filesExclude),
 		Languages:                    langInclude,
