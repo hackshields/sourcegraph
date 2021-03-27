@@ -147,27 +147,21 @@ func (b Basic) IsPatternNegated() bool {
 	return isNegated
 }
 
+// Gross.
+func (b Basic) IsCaseSensitive() bool {
+	return Q(ToNodes(b.Parameters)).IsCaseSensitive()
+}
+
 // Warning: Atomic query assumption. Assumes query is regexp the first time it encounteres an annotation that is regexp.
 func (b Basic) IsRegexp() bool {
-	isRegexp := false
-	VisitPattern([]Node{b.Pattern}, func(_ string, _ bool, annot Annotation) {
-		isRegexp = annot.Labels.isSet(Regexp)
-	})
-	return isRegexp
+	annot := b.Pattern.(Pattern).Annotation
+	return annot.Labels.isSet(Regexp)
 }
 
-// Warning: Atomic query assumption. Assumes query is structural the first time it encounteres an annotation that is structural.
+// Warning: Atomic query assumption. Assumes query has one pattern with structural annotation.
 func (b Basic) IsStructural() bool {
-	isStructural := false
-	VisitPattern([]Node{b.Pattern}, func(_ string, _ bool, annot Annotation) {
-		isStructural = annot.Labels.isSet(Structural)
-	})
-	return isStructural
-}
-
-// Warning: Atomic query assumption. Assumes query is structural the first time it encounteres an annotation that is structural.
-func (b Basic) PatternValue() string {
-	return b.Pattern.(Pattern).Value
+	annot := b.Pattern.(Pattern).Annotation
+	return annot.Labels.isSet(Structural)
 }
 
 // Returns first value. Doesn't care if it's negated or not. You should know if a field is negatable or not (passes validation).

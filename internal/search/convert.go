@@ -42,11 +42,17 @@ func toTextSearch(q query.Basic) *TextPatternInfo {
 	filesReposMustInclude, filesReposMustExclude := q.IncludeExcludeValues(query.FieldRepoHasFile)
 	selector, _ := filter.SelectPathFromString(q.FindValue(query.FieldSelect)) // Invariant: already validated.
 
+	// TODO  handle opts.fileMatchLimit and opts.forceFileSearch (for suggestions)
+
 	return &TextPatternInfo{
 		// Atomic Assumptions
-		IsNegated:       q.IsPatternNegated(),
-		IsRegexp:        q.IsRegexp(),
+		Pattern:         q.Pattern.(query.Pattern).Value,
+		IsNegated:       q.Pattern.(query.Pattern).Negated,
+		IsRegExp:        q.IsRegexp(),
 		IsStructuralPat: q.IsStructural(),
+
+		// Janky -- does this apply on to pattern, or params? Probably only pattern.
+		IsCaseSensitive: q.IsCaseSensitive(),
 
 		// Parameters
 		IncludePatterns:              filesInclude,
